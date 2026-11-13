@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Compass, Bookmark, Ticket, Menu, X } from 'lucide-react';
+import { Compass, Bookmark, Ticket, Menu, X ,UserSearch} from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmarksCount }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,11 +10,11 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/50 backdrop-blur-md border-b border-zinc-200">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Brand Logo */}
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavClick('discover')}>
-          <div className="w-10 h-10 rounded-xl  flex items-center justify-center text-white font-bold text-xl shadow-sm">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QBQJcGS-KVWLk9P0oUU4HA56WC6pt8JRItgXgJEz4ZF01q8ArXpYFjkb&s=10" className='w-12 h-12 rounded-full' alt="logo" />
           </div>
           <div>
@@ -72,13 +72,22 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
               </span>
             )}
           </button>
+          <button
+            onClick={() => handleNavClick('about')}
+            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              activeTab === 'about'
+                ? 'bg-pink-600 text-white shadow-sm'
+                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/60'
+            }`}
+          >
+            <UserSearch className='w-4 h-4' />
+            About Us
+          </button>
         </nav>
 
         {/* Right side avatar & mobile menu toggle */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-600 font-semibold text-sm">
-            RM
-          </div>
+          
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-700 hover:bg-zinc-200 transition-colors"
@@ -90,7 +99,7 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-zinc-200 px-4 py-4 space-y-2 animate-in slide-in-from-top duration-200">
+        <div className="md:hidden bg-white border-b border-zinc-200 px-4 py-4 space-y-2">
           <button
             onClick={() => handleNavClick('discover')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
@@ -131,6 +140,15 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
                 {myEventsCount}
               </span>
             )}
+          </button>
+          <button
+            onClick={() => handleNavClick('about')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'about' ? 'bg-pink-600 text-white' : 'text-zinc-700 hover:bg-zinc-100'
+            }`}
+          >
+            <UserSearch className='w-4 h-4' />
+            About Us
           </button>
         </div>
       )}

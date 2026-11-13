@@ -22,7 +22,7 @@ export default function DiscoverPage({ events, onSelectEvent, bookmarks, onToggl
   });
 
   return (
-    <div className="space-y-10 pb-16">
+    <div className="space-y-10 pb-16 max-w-7xl mx-auto">
      {/* Hero Section */}
 <div className="bg-zinc-700 text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-lg">
   {/* Background Image with Dark Overlay */}

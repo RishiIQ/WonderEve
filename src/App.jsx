@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import DiscoverPage from './pages/DiscoverPage';
 import EventDetailPage from './pages/EventDetailPage';
 import MyEventsPage from './pages/MyEventsPage';
 import BookmarksPage from './pages/BookmarksPage';
+import AboutPage from './pages/AboutPage';
 import RegistrationModal from './components/RegistrationModal';
 import SuccessModal from './components/SuccessModal';
 import QrCodeModal from './components/QrCodeModal';
@@ -35,9 +37,9 @@ export default function App() {
           eventDate: 'Dec 12, 2026',
           eventVenue: 'Silicon Convention Center, Austin, TX',
           eventImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800',
-          name: 'NANDHA',
-          email: 'nandhanan0@gmail.com',
-          phone: '+91 78718 27659',
+          name: 'Rishi Murugan',
+          email: 'rishirishim0@gmail.com',
+          phone: '7871827659',
           ticketType: 'VIP All-Access',
           quantity: 1,
           totalPrice: 224,
@@ -70,26 +72,23 @@ export default function App() {
   };
 
   const handleCancelRegistration = (passId) => {
-    if (window.confirm('Are you sure you want to cancel this registration?')) {
-      setRegisteredEvents((prev) => prev.filter((reg) => reg.passId !== passId));
-    }
+    setRegisteredEvents((prev) => prev.filter((reg) => reg.passId !== passId));
   };
 
   return (
-    <div className="min-h-screen bg-pink-100 text-zinc-900 font-sans antialiased selection:bg-pink-600 selection:text-white">
-      {/* Background Floating Vent Particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <div id="root" className="min-h-screen bg-zinc-50 text-zinc-900 font-sans antialiased relative selection:bg-pink-600 selection:text-white flex flex-col justify-between">
+      {/* Fixed Background Floating Vent Particles */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         {[...Array(15)].map((_, i) => {
-          // Randomize positioning, size, and animation duration for organic flow
           const randomLeft = Math.random() * 100;
-          const randomSize = Math.random() * 6 + 2; // 2px to 8px
-          const randomDuration = Math.random() * 10 + 8; // 8s to 18s
+          const randomSize = Math.random() * 6 + 2;
+          const randomDuration = Math.random() * 10 + 8;
           const randomDelay = Math.random() * 5;
 
           return (
             <div
               key={i}
-              className="absolute rounded-full bg-pink-500 particle-vent"
+              className="absolute rounded-full bg-pink-500/25 particle-vent"
               style={{
                 left: `${randomLeft}%`,
                 bottom: `-20px`,
@@ -101,46 +100,60 @@ export default function App() {
             />
           );
         })}
-      </div>  
-      <Navbar
-        activeTab={activeTab}
-        setActiveTab={(tab) => {
-          setActiveTab(tab);
-          setSelectedEvent(null);
-        }}
-        myEventsCount={registeredEvents.length}
-        bookmarksCount={bookmarks.length}
-      />
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        {selectedEvent ? (
-          <EventDetailPage
-            event={selectedEvent}
-            onBack={() => setSelectedEvent(null)}
-            onRegister={(ev) => setRegisteringEvent(ev)}
-          />
-        ) : activeTab === 'discover' ? (
-          <DiscoverPage
-            events={initialEvents}
-            onSelectEvent={(ev) => setSelectedEvent(ev)}
-            bookmarks={bookmarks}
-            onToggleBookmark={handleToggleBookmark}
-          />
-        ) : activeTab === 'bookmarks' ? (
-          <BookmarksPage
-            events={initialEvents}
-            bookmarks={bookmarks}
-            onSelectEvent={(ev) => setSelectedEvent(ev)}
-            onToggleBookmark={handleToggleBookmark}
-          />
-        ) : (
-          <MyEventsPage
-            registeredEvents={registeredEvents}
-            onViewQr={(reg) => setActiveQrPass(reg)}
-            onCancelRegistration={handleCancelRegistration}
-          />
-        )}
-      </main>
+      <div className="relative z-10 flex flex-col min-h-screen w-full">
+        <Navbar
+          activeTab={activeTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            setSelectedEvent(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          myEventsCount={registeredEvents.length}
+          bookmarksCount={bookmarks.length}
+        />
+
+        <main className="flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+          {selectedEvent ? (
+            <EventDetailPage
+              event={selectedEvent}
+              onBack={() => setSelectedEvent(null)}
+              onRegister={(ev) => setRegisteringEvent(ev)}
+            />
+          ) : activeTab === 'discover' ? (
+            <DiscoverPage
+              events={initialEvents}
+              onSelectEvent={(ev) => setSelectedEvent(ev)}
+              bookmarks={bookmarks}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          ) : activeTab === 'bookmarks' ? (
+            <BookmarksPage
+              events={initialEvents}
+              bookmarks={bookmarks}
+              onSelectEvent={(ev) => setSelectedEvent(ev)}
+              onToggleBookmark={handleToggleBookmark}
+            />
+          ) : activeTab === 'my-events' ? (
+            <MyEventsPage
+              registeredEvents={registeredEvents}
+              onViewQr={(reg) => setActiveQrPass(reg)}
+              onCancelRegistration={handleCancelRegistration}
+            />
+          ) : activeTab === 'about' ? (
+            <AboutPage onExplore={() => setActiveTab('discover')} />
+          ) : null}
+        </main>
+
+        <Footer 
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+            setSelectedEvent(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }} 
+        />
+      </div>
 
       {/* Modals */}
       {registeringEvent && (
