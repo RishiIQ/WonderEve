@@ -19,44 +19,44 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
   ];
 
   return (
-    <header className="sticky top-3 z-50 px-4 sm:px-6 lg:px-8 pointer-events-none">
+    <header className="sticky top-2 sm:top-3 z-50 px-2.5 sm:px-6 lg:px-8 pointer-events-none w-full">
       <motion.div
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={M3E_SURFACE_SPRING}
-        className="max-w-7xl mx-auto h-20 px-5 sm:px-6 bg-[#FFF9FB]/85 backdrop-blur-2xl border border-pink-200/70 rounded-[32px] shadow-[0_8px_30px_rgba(219,39,119,0.08)] flex items-center justify-between pointer-events-auto"
+        className="max-w-7xl mx-auto min-h-16 sm:h-20 px-3.5 sm:px-6 py-2 sm:py-0 bg-[#FFF9FB]/90 backdrop-blur-2xl border border-pink-200/70 rounded-[24px] sm:rounded-[32px] shadow-[0_8px_30px_rgba(219,39,119,0.08)] flex items-center justify-between gap-2 pointer-events-auto"
       >
         {/* Brand Logo */}
         <motion.div
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.96 }}
           transition={CAELESTIA_SPRING}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group min-w-0 shrink"
           onClick={() => handleNavClick('discover')}
         >
           <motion.div
             whileHover={{ rotate: 8 }}
             transition={CAELESTIA_SPRING}
-            className="w-11 h-11 rounded-2xl bg-pink-100 p-0.5 flex items-center justify-center shadow-xs"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-pink-100 p-0.5 flex items-center justify-center shadow-xs shrink-0"
           >
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QBQJcGS-KVWLk9P0oUU4HA56WC6pt8JRItgXgJEz4ZF01q8ArXpYFjkb&s=10"
-              className="w-full h-full rounded-[14px] object-cover"
+              className="w-full h-full rounded-[10px] sm:rounded-[14px] object-cover"
               alt="logo"
             />
           </motion.div>
-          <div>
-            <span className="text-xl font-extrabold tracking-tight text-pink-950 italic block leading-none">
+          <div className="min-w-0">
+            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-pink-950 italic block leading-tight truncate">
               Wonder<span className="text-orange-500">Eve</span>
             </span>
-            <span className="text-[11px] block text-pink-800/60 font-semibold tracking-wide mt-0.5">
+            <span className="text-[10px] sm:text-[11px] block text-pink-800/65 font-semibold tracking-wide leading-tight truncate">
               Event Operations Hub
             </span>
           </div>
         </motion.div>
 
-        {/* M3E Floating Pill Nav with Shared Layout Glide */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#FCEEF3]/90 p-1.5 rounded-full border border-pink-200/60">
+        {/* M3E Floating Pill Nav (lg+ avoids cramped 4-pill row on mid-sized tablets) */}
+        <nav className="hidden lg:flex items-center gap-1 bg-[#FCEEF3]/90 p-1.5 rounded-full border border-pink-200/60 shrink-0">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -66,7 +66,7 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
                 onClick={() => handleNavClick(item.id)}
                 whileTap={{ scale: 0.94 }}
                 transition={CAELESTIA_SPRING}
-                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors ${
+                className={`relative flex items-center gap-2 px-4 xl:px-5 py-2.5 rounded-full text-sm font-semibold transition-colors whitespace-nowrap ${
                   isActive ? 'text-white' : 'text-zinc-700 hover:text-pink-950'
                 }`}
               >
@@ -107,15 +107,16 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
           })}
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <div className="flex items-center gap-3">
+        {/* Mobile / Tablet Drawer Toggle */}
+        <div className="flex items-center gap-2 shrink-0 lg:hidden">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.88 }}
             transition={CAELESTIA_SPRING}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-11 h-11 rounded-2xl bg-[#FCEEF3] border border-pink-200/70 flex items-center justify-center text-pink-900 hover:bg-pink-200/60"
+            className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#FCEEF3] border border-pink-200/70 flex items-center justify-center text-pink-900 hover:bg-pink-200/60"
             aria-label="Toggle Menu"
+            aria-expanded={mobileMenuOpen}
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -132,7 +133,7 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
         </div>
       </motion.div>
 
-      {/* Caelestia Mobile Drawer */}
+      {/* Caelestia Mobile & Tablet Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -140,7 +141,7 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.96 }}
             transition={M3E_SURFACE_SPRING}
-            className="md:hidden max-w-7xl mx-auto mt-2.5 bg-[#FFF9FB]/95 backdrop-blur-2xl border border-pink-200/80 rounded-[28px] p-4 shadow-2xl space-y-1.5 pointer-events-auto"
+            className="lg:hidden max-w-7xl mx-auto mt-2 bg-[#FFF9FB]/95 backdrop-blur-2xl border border-pink-200/80 rounded-[24px] sm:rounded-[28px] p-3 sm:p-4 shadow-2xl space-y-1.5 pointer-events-auto max-h-[80vh] overflow-y-auto"
           >
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -151,19 +152,19 @@ export default function Navbar({ activeTab, setActiveTab, myEventsCount, bookmar
                   whileTap={{ scale: 0.97 }}
                   transition={CAELESTIA_SPRING}
                   onClick={() => handleNavClick(item.id)}
-                  className={`w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-sm font-semibold transition-all ${
+                  className={`w-full flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl text-sm font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-600 text-white shadow-sm'
                       : 'text-zinc-700 hover:bg-[#FCEEF3]'
                   }`}
                 >
-                  <span className="flex items-center gap-3">
-                    <Icon className="w-4 h-4" />
-                    {item.label}
+                  <span className="flex items-center gap-3 min-w-0">
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{item.label}</span>
                   </span>
                   {item.count > 0 && (
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold ${
+                      className={`px-2.5 py-0.5 rounded-full text-xs font-extrabold shrink-0 ${
                         isActive ? 'bg-white text-pink-600' : 'bg-pink-600 text-white'
                       }`}
                     >
